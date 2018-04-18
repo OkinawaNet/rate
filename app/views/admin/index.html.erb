@@ -1,0 +1,43 @@
+<div class="container">
+    <%= form_with scope: :rate, model: @rate, url: {action: "rate_update"}, local: true do |form| %>
+        <div class="row">
+          <div class='col-lg-4 col-md-6 col-sm-12'>
+            <div class="form-group">
+              <div class="input-group">
+                <span class="input-group-addon" id="sizing-addon2">USD/RUB</span>
+                <%= form.text_field :formatted_forced_value, :class => 'form-control', 'aria-describedby' => "sizing-addon2" %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class='col-lg-4 col-md-6 col-sm-12'>
+            <div class="form-group">
+              <div class='input-group date' id='datetimepicker_usd'>
+                <span class="input-group-addon" id="sizing-addon2">Rate until</span>
+                <%= form.text_field :forced_until, :class => 'form-control', :value => '' %>
+
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <%= form.hidden_field 'time_difference', :id => "time_difference"%>
+        <%= form.submit 'Set', :class => 'btn btn-primary' %>
+    <% end %>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        var time_difference = new Date().getTimezoneOffset();
+        $('#time_difference').val(time_difference);
+
+        $('#datetimepicker_usd').datetimepicker({
+            format: 'DD.MM.YYYY HH:mm',
+            defaultDate: '<%= @rate.forced_until ? @rate.forced_until.iso8601 : '' %>'
+        });
+    });
+</script>
